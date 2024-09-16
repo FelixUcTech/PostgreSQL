@@ -1,0 +1,4 @@
+--Lo que se puede hacer en las tablas:
+    --Crearla
+    --Modificarlas
+    --Borrarlas

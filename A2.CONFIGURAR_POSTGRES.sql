@@ -55,5 +55,114 @@ postgres=# \?--Con este comando se puede ver todos los comandos, te mostrará to
 SELECT version();--Muestra la version de postgres que está ejecuta tu base de datos
 \g --Los usuario que están accediendo a la base de datos
 \timing--habilita una propiedad, después de cada comando muestra el tiempo qué le tomo ejecutarlo
+--Otros ejemplos:
+\c Saltar entre bases de datos
+
+\l Listar base de datos disponibles
+
+\dt Listar las tablas de la base de datos
+
+\d <nombre_tabla> Describir una tabla
+
+\dn Listar los esquemas de la base de datos actual
+
+\df Listar las funciones disponibles de la base de datos actual
+
+\dv Listar las vistas de la base de datos actual
+
+\du Listar los usuarios y sus roles de la base de datos actual
 -----------------------
 --Una base de datos de posgres es base de datos del elefantito
+Casts: Los casts permiten convertir un valor de un tipo de datos a otro en PostgreSQL. Por ejemplo, puedes convertir un número entero a texto o una cadena de texto a una fecha. Los casts son útiles cuando quieres asegurar la compatibilidad entre tipos de datos en una consulta.
+Ejemplo:
+sql
+SELECT CAST('2024-01-01' AS DATE);
+--
+Catalogs: Los catalogs en PostgreSQL son colecciones de tablas que contienen información sobre los objetos de la base de datos, como tablas, vistas, índices, y más. Se utilizan para gestionar metadatos y son esenciales para el funcionamiento del sistema de base de datos. Por ejemplo, el catálogo pg_class almacena información sobre todas las tablas y relaciones en la base de datos.
+--
+Event Triggers: Un event trigger es un tipo especial de trigger que se activa en respuesta a eventos DDL (como la creación o eliminación de objetos de base de datos). Esto te permite ejecutar código cuando se realizan cambios en la estructura de la base de datos, como cuando se crea una tabla o un índice.
+Ejemplo:
+sql
+CREATE EVENT TRIGGER my_trigger ON ddl_command_start
+EXECUTE FUNCTION my_function();
+--
+Extensions:Las extensions son paquetes adicionales que añaden nuevas funcionalidades a PostgreSQL. Algunas extensiones populares son PostGIS (para datos geoespaciales) y pg_stat_statements (para monitoreo de consultas). Estas permiten ampliar las capacidades estándar de PostgreSQL sin modificar su núcleo.
+Ejemplo:
+sql
+CREATE EXTENSION postgis;
+--
+Foreign Data Wrappers (FDW): Los Foreign Data Wrappers permiten a PostgreSQL acceder a bases de datos externas como si fueran tablas locales. Esto es útil cuando deseas consultar datos en otras bases de datos sin mover los datos físicamente a PostgreSQL.
+Ejemplo:
+sql
+CREATE EXTENSION postgres_fdw;
+--
+Languages:Los languages en PostgreSQL son los lenguajes de programación que se pueden usar para crear funciones almacenadas y procedimientos. El lenguaje más común es PL/pgSQL, pero PostgreSQL admite otros lenguajes como Python (PL/Python) o Perl (PL/Perl).
+Ejemplo:
+sql
+CREATE FUNCTION my_function() RETURNS void AS $$
+BEGIN
+   -- código en PL/pgSQL
+END;
+$$ LANGUAGE plpgsql;
+--
+Publications:Las publications se utilizan en la replicación lógica para especificar qué tablas o datos se deben replicar a otros servidores. Las publicaciones definen los objetos que se replicarán y se combinan con suscripciones.
+Ejemplo:
+sql
+CREATE PUBLICATION my_pub FOR TABLE my_table;
+--
+Schemas:Los schemas en PostgreSQL organizan las tablas y otros objetos dentro de una base de datos, funcionando como carpetas que agrupan objetos relacionados. Cada base de datos puede tener múltiples esquemas, lo que facilita la separación lógica de los datos.
+Ejemplo:
+sql
+CREATE SCHEMA my_schema;
+--
+Subscriptions:Las subscriptions se usan junto con las publicaciones en la replicación lógica. Una suscripción conecta una base de datos a una publicación en otra base de datos para recibir las actualizaciones de los datos.
+Ejemplo:
+sql
+CREATE SUBSCRIPTION my_sub CONNECTION 'dbname=mydb' PUBLICATION my_pub;
+Estos conceptos son esenciales para entender cómo funciona PostgreSQL en términos de organización de datos, replicación y extensibilidad del sistema.
+-----------------------
+Terminando de explorar las posibilidades dentro de la terminal de comandos y el interfaz gráfico, queda ahora por entender la configuración de:
+Para cualquier de los 3 archivos siguientes, es neceserio leer la documentación qué viene implicita en cada archivo para entender el alcance de la configuraciones que se podrían estar llevando acabo
+  postgresql.conf
+  pg_hba.conf
+  pg_ident.conf
+--Para acceder a la ubicación de los archivos de configuració, se consulta desde pgAdmin (interfaz grafico)
+SHOW config_file;
+output
+C:/Program Files/PostgreSQL/16/data/postgresql.conf
+--Este archivo es muy importante desde aquí se pueden modificar prametros de performas de la misma base de datos}
+--Se puede abrir en viasual estudio Code, y si se modiifca ya corriendo el servicio, para poder hacer valdia la configuración se tendría que reiniciar el servicio para que apliquen los cambio
+C:/Program Files/PostgreSQL/16/data/pg_hba.conf
+--pg_hba.conf es un archivo que nos permite hacer una gestion profesional de los usuarios, permisos y conexión a nivel red
+C:/Program Files/PostgreSQL/16/data/pg_ident.conf
+-- MAPNAME       SYSTEM-USERNAME         PG-USERNAME
+--nos permite mapear usuarios, servidores como linux, usurios roots
+--este tipo de archivo nos permite determinar qué tipo de usuario puede tener ciertos servicios o capacidades
+-------------
+--PRESENTACION DEL PROYECTO
+--ELEMENTOS:
+    --Pasajero
+    --Trayecto
+    --Estación
+    --Tren
+    --Viaje
+--De las tablas anteriores se les debe aplicar el estandar ACID, con el fin de qué detectemos que tablas con de relación y qué tablas son independientes
+--Tipos de datos en postgres PRINCIPALES
+  --Númerico
+  --Monetario
+  --Texto
+  --Binario
+  --Fecha/hora
+  --Boolean
+--Tipos de datos en postgres ESPECIALES, ESTOS SON PROPIOS DE POSGRES
+  --Geométricos: Te permiten usar x y y, calcular distancias y áreas
+  --Dirección de Red: Almacena ips, y te permite hacer calculos de mascara de red
+  --Texto tipo bit: Te permite hacer calculos en otros sistema, hexadecimal o binarios
+  --XML, JSON: Ejemplo de comunicación de APIs
+  --Arreglos
+https://www.todopostgresql.com/postgresql-data-types-los-tipos-de-datos-mas-utilizados/
+
+https://www.postgresql.org/docs/16/datatype.html
+
+
+
