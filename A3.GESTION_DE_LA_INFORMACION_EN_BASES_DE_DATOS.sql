@@ -123,7 +123,7 @@ SECURITY LABEL FOR "LoginSeguro" ON ROLE felix_1 IS 'SeguridadNivel1';
 COMMENT ON ROLE felix_1 IS 'otro creado desde la terminal'
 
 --Dándole permiso a un usuario restringido
--- Table: public.Tren
+--Table: public.Tren
 
 -- DROP TABLE IF EXISTS public."Tren";
 
